@@ -86,9 +86,12 @@ All dates use the `YYYY-MM-DD` format.
 
 ## How it works
 
-```
-Telegram groups  →  extract.py   →  transform.py   →  load.py   →  PostgreSQL
-  (Telethon)        (raw msgs)      (regex parse)     (batch insert)
+```mermaid
+flowchart LR
+    TG[Telegram Groups] -->|Telethon| EX[extract.py]
+    EX -->|Raw Messages| TR[transform.py]
+    TR -->|Regex Parse| LO[load.py]
+    LO -->|Batch Insert| PG[(PostgreSQL)]
 ```
 
 1. **Extract** — `src/extract.py` fetches messages from all configured Telegram groups for a date range using Telethon. Rate-limited (sleeps 1s every 100 messages per group).
