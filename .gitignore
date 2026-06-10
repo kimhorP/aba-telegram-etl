@@ -1,0 +1,8 @@
+.venv/
+notebooks/
+dashboard/
+__pycache__/
+*.pyc
+.env
+session.session
+.opencode/
