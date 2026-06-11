@@ -1,0 +1,12 @@
+.env
+.git
+.gitignore
+__pycache__/
+*.pyc
+.venv/
+.uv.lock
+notebooks/
+dashboard/
+session.session
+.opencode/
+README.md

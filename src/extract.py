@@ -1,6 +1,22 @@
+import re
 from datetime import datetime
 import asyncio
 from collections.abc import Callable
+
+_ABA_PATTERN = re.compile(
+    r'[៛$]\s?[\d,]+.*paid by .+ \(\*\d+\).*via ABA',
+    re.DOTALL
+)
+
+
+def is_aba_transaction(text: str) -> bool:
+    if not text:
+        return False
+    stripped = text.strip()
+    if len(stripped) < 30:
+        return False
+    return bool(_ABA_PATTERN.search(stripped))
+
 
 async def extract_messages(
     client,
@@ -23,6 +39,9 @@ async def extract_messages(
             break
 
         if not msg.text:
+            continue
+
+        if not is_aba_transaction(msg.text):
             continue
 
         messages.append({
