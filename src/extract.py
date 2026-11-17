@@ -26,12 +26,16 @@ async def extract_messages(
     on_message: Callable[[], None] | None = None,
 ):
     messages = []
-    count = 0
+    fetched = 0
 
     async for msg in client.iter_messages(
         shop_id,
         reverse=True
     ):
+        fetched += 1
+        if fetched % 100 == 0:
+            await asyncio.sleep(1)
+
         if msg.date < start_date:
             continue
 
@@ -49,12 +53,7 @@ async def extract_messages(
             "text": msg.text
         })
 
-        count += 1
-
         if on_message:
             on_message()
-
-        if count % 100 == 0:
-            await asyncio.sleep(1)
 
     return messages
