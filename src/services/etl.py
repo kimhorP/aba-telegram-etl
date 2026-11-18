@@ -37,6 +37,7 @@ async def run_etl(start_date, end_date, on_message=None):
 
     df = pd.DataFrame(all_rows)
     df = df.rename(columns={"date": "date_of_transaction"})
+    df = df.astype(object).where(pd.notna(df), None)
     df = df[[
         "currency",
         "amount",

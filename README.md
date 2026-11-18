@@ -16,6 +16,7 @@ Pull ABA bank transaction notifications from Telegram into PostgreSQL.
 - **Multi-currency** — Tracks USD and KHR. USD amounts are auto-converted to KHR-equivalent at 1 USD = 4,000 KHR.
 - **Auto-ranging** — Remembers the last transaction date and suggests the next range automatically.
 - **Resilient loading** — Batch-inserts into PostgreSQL; falls back row-by-row if a batch fails.
+- **Web dashboard** — Read-only FastAPI + Chart.js overview with shop/date filters and KHR movement (DoD / MoM / YoY).
 
 ## Installation
 
@@ -86,6 +87,16 @@ Type `y` to accept or `n` to enter dates manually.
 | Service | URL | Login |
 |---------|-----|-------|
 | pgAdmin | http://localhost:5050 | `admin@admin.com` / `admin` |
+| Web dashboard | http://localhost:8000 | none |
+
+### Web dashboard
+
+```bash
+uv run uvicorn web.app:app
+```
+
+Open http://localhost:8000. It is read-only — it only displays data already
+loaded by the ETL. Use the Shop and Date filters to narrow any chart.
 
 ## Configuration
 
@@ -188,5 +199,9 @@ On first run, Telethon prompts for your phone number and the verification code f
 │       ├── map_bank_name.py   # Bank code lookup
 │       └── telegram_config.py # Credentials + timezone
 ├── docker-compose.yml         # All services
-└── Dockerfile                 # ETL container
+├── Dockerfile                 # ETL container
+└── web/                       # FastAPI dashboard
+    ├── app.py                 # Routes
+    ├── queries.py             # Read-only SQL aggregates
+    └── static/                # index.html, app.js, style.css
 ```

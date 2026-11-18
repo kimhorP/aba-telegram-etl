@@ -1,5 +1,15 @@
 import re
+from datetime import timedelta, timezone
 from src.utils.map_bank_name import map_bank_name
+
+CAMBODIA_TZ = timezone(timedelta(hours=7))
+
+
+def _to_local_naive(msg_date):
+    if msg_date is None or msg_date.tzinfo is None:
+        return msg_date
+    return msg_date.astimezone(CAMBODIA_TZ).replace(tzinfo=None)
+
 
 def parse_aba_transaction(text: str, msg_date, shop_name: str | None = None) -> dict:
     data = {
@@ -7,7 +17,7 @@ def parse_aba_transaction(text: str, msg_date, shop_name: str | None = None) -> 
         "amount": None,
         "customer_name": None,
         "sender_bank": None,
-        "date_of_transaction": msg_date,
+        "date_of_transaction": _to_local_naive(msg_date),
         "remark": None,
         "shop_name": shop_name,
         "formatted_amount": None,

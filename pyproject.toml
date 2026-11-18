@@ -12,6 +12,8 @@ dependencies = [
     "telethon>=1.42.0",
     "rich>=13.9.0",
     "tqdm>=4.67.3",
+    "fastapi>=0.163.1",
+    "uvicorn[standard]>=0.54.0",
 ]
 
 [dependency-groups]

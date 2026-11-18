@@ -1,6 +1,7 @@
 .venv/
 notebooks/
 dashboard/
+docs/
 __pycache__/
 *.pyc
 .env

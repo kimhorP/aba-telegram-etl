@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from src.transform import parse_aba_transaction
 
 MSG_DATE = datetime(2025, 6, 1, 10, 30, tzinfo=timezone.utc)
+LOCAL_DATE = datetime(2025, 6, 1, 17, 30)
 
 
 def test_khr_khqr_message():
@@ -19,7 +20,7 @@ def test_khr_khqr_message():
     assert data["sender_bank"] == "PHNOM PENH COMMERCIAL BANK"
     assert data["remark"] == "payment for goods"
     assert data["shop_name"] == "Mom"
-    assert data["date_of_transaction"] == MSG_DATE
+    assert data["date_of_transaction"] == LOCAL_DATE
 
 
 def test_usd_aba_pay_message_doubles_to_khr():
